@@ -1,13 +1,19 @@
-<!doctype html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <h1>测试</h1>
-</body>
-</html>
+@extends('app')
+
+@section('title')
+    测试主题
+@stop
+
+@section('content')
+
+    <h3>用名字做测试</h3>
+
+    @if( count($name) > 0)
+        <ul>
+            @foreach( $name as $i)
+                <li>{{ $i }}</li>
+            @endforeach
+        </ul>
+    @endif
+
+@stop
