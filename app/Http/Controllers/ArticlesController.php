@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Article;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -17,7 +18,7 @@ class ArticlesController extends Controller
      */
     public function index()
     {
-        $articles = Article::all();
+        $articles = Article::latest() -> published() -> get();
         return view('articles.index', compact('articles'));
     }
 
@@ -28,7 +29,7 @@ class ArticlesController extends Controller
      */
     public function create()
     {
-        //
+        return view('articles.create');
     }
 
     /**
@@ -37,9 +38,14 @@ class ArticlesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Requests\CreateArticleRequest $request)
     {
-        //
+//        $this -> validate($request, ['title' => 'required', 'content' => 'required']);
+        //接收post过来的数据
+        //存入数据库
+        //重定向
+        Article::create($request -> all());
+        return redirect('/articles');
     }
 
     /**
@@ -62,7 +68,8 @@ class ArticlesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $article = Article::findOrFail($id);
+        return view('articles.edit', compact('article'));
     }
 
     /**
@@ -72,9 +79,11 @@ class ArticlesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Requests\CreateArticleRequest $request, $id)
     {
-        //
+        $article = Article::findOrFail($id);
+        $article -> update($request -> all());
+        return redirect('/articles');
     }
 
     /**
